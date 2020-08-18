@@ -14,12 +14,13 @@ phases:
     commands:
        - echo Build started on `date`
        - echo Running maven commands
+       - echo $CODEBUILD_BUILD_NUMBER
        - mvn clean install package
        - echo Building Docker Images
        - cp Docker/Dockerfile target/Dockerfile
        - cd target
-       - docker build -t cicd_ecr .
-       - docker tag cicd_ecr:latest 871849853672.dkr.ecr.us-east-1.amazonaws.com/cicd_ecr:latest
+       - docker build -t cicd_ecr:$CODEBUILD_BUILD_NUMBER .
+       - docker tag cicd_ecr:$CODEBUILD_BUILD_NUMBER 871849853672.dkr.ecr.us-east-1.amazonaws.com/cicd_ecr:latest
        
   post_build:
     commands:

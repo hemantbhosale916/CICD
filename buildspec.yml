@@ -17,8 +17,8 @@ phases:
        - echo $CODEBUILD_BUILD_NUMBER
        - mvn clean install package
        - echo Building Docker Images
-       - cp Docker/Dockerfile target/Dockerfile
-       - cd target
+       - cp Dockerfile webapp/target/Dockerfile
+       - cd webapp/target
        - docker build -t cicd_ecr:$CODEBUILD_BUILD_NUMBER .
        - docker tag cicd_ecr:$CODEBUILD_BUILD_NUMBER 871849853672.dkr.ecr.us-east-1.amazonaws.com/cicd_ecr:latest
        
@@ -26,7 +26,7 @@ phases:
     commands:
        - echo Build started on `date`
        - echo Pushing Docker Image
-       - docker push 871849853672.dkr.ecr.us-east-1.amazonaws.com/cicd_ecr:latest 
+       - docker push 871849853672.dkr.ecr.us-east-1.amazonaws.com/cicd_ecr:$CODEBUILD_BUILD_NUMBER
     
 artifacts:
   files:
